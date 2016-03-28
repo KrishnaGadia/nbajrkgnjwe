@@ -15,17 +15,24 @@ class DrawServer
 		
 		ServerSocket ss = new ServerSocket(portNo);
 		Socket cs = ss.accept();
+		Socket ps = ss.accept();
 		PrintWriter outToClient = new PrintWriter(cs.getOutputStream(),true);
 		BufferedReader inFromClient = new BufferedReader(new InputStreamReader(cs.getInputStream()));
+		PrintWriter outToPupil = new PrintWriter(ps.getOutputStream(),true);
 		
 
 		String inputLine;
 	    while ((inputLine = inFromClient.readLine()) != null ) {
             record = record.concat(inputLine+"\n");
             System.out.println(inputLine+" got");
-	        outToClient.println(inputLine);
-            if(inputLine.charAt(0)=='.')
-                    break;
+	    outToClient.println(inputLine);
+            outToPupil.println(inputLine);
+	    if(inputLine.charAt(0)=='.'){
+		outToPupil.println("Co ordinator ended your session");   
+		cs.close();
+		ps.close();                 
+		break;
+		}
 	    }
 
 		System.out.println(record); 

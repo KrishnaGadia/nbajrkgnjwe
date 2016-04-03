@@ -29,6 +29,7 @@ class DrawClient
             int choice = Integer.parseInt(stdIn.readLine());
         
             if(choice == 1){						// coordinator
+		System.out.println("Please begin");
                 String userInput;
                 String ServerInput="";
                 while ((userInput = stdIn.readLine()) != null ) {
@@ -41,9 +42,10 @@ class DrawClient
                 System.out.println(" You entered \".\", hence session ended ");
             }
             else{							// pupil
+		System.out.println("Waiting for co-ordinator");
                 String ServerInput="";
                 while ((ServerInput = inFromServer.readLine()) != null ) {
-                    System.out.println("echo: " + ServerInput);
+                    System.out.println("Co-od: " + ServerInput);
                     if(ServerInput.charAt(0)=='.')
                         break;
                 }

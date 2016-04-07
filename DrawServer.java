@@ -1,3 +1,4 @@
+package Mrin_Krish;
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -5,7 +6,10 @@ import java.util.*;
 class DrawServer 
 {
     
-	static int portNo = 6789;
+	static int portNo = 6788;
+	static Socket cs,ps;
+	static PrintWriter outToPupil;
+	static boolean isPupil = false;
 	public static void main(String args[]) 
 	{	
 		
@@ -22,40 +26,51 @@ class DrawServer
 			System.out.println("Co ordinator accepted");
 			Socket ps = ss.accept();
 			System.out.println("Pupil accepted");
-			PrintWriter outToClient = new PrintWriter(cs.getOutputStream(),true);
-			BufferedReader inFromClient = new BufferedReader(new InputStreamReader(cs.getInputStream()));
-			PrintWriter outToPupil = new PrintWriter(ps.getOutputStream(),true);
-		
+			
+			System.out.println("Came here");
+			PrintWriter outToClient 
+					= new PrintWriter(cs.getOutputStream(),true);
+			outToPupil = new PrintWriter(ps.getOutputStream(),true);			
+			BufferedReader inFromClient 
+					= new BufferedReader(new InputStreamReader(cs.getInputStream()));
 
 			String inputLine;
 		    while ((inputLine = inFromClient.readLine()) != null ) {
 				record = record.concat(inputLine+"\n");
 				System.out.println(inputLine+" got");
-				outToClient.println(inputLine);
-				outToPupil.println(inputLine);
-				if(inputLine.charAt(0)=='.'){
-					outToPupil.println("Co ordinator ended your session");   
-					cs.close();
-					ps.close();
-					ss.close();                 
-					break;
-					}
+				if(inputLine!=null){
+					outToClient.println(inputLine);
+					outToPupil.println(inputLine);
+					}			
 				}
-		
+			
 			loc = record.lastIndexOf("#");
 			for(int i = loc;i<record.length();i++){
-				System.out.print(record.charAt(i));
+				System.out.print(record.charAt(i));			
 				} 	//Print contents of this session
 			record.concat("#");
-
+		
+			cs.close();
+			ss.close();
 		
 				}
-			}
-		
+			}	
 		catch( Exception e){
-			System.out.println(e.toString()+" is the error");
+			System.out.println(e.toString()+" Is the EXCEPTION");
 		}
 		
 	}
+	
+	/*public static void connectPup(ServerSocket ss)throws IOException{
+		Socket ps = ss.accept();
+		System.out.println("Pupil accepted");
+		outToPupil = new PrintWriter(ps.getOutputStream(),true);
+		isPupil = true;	
+	}
+	public static void printPup(String inputLine){
+		if(!ps.isClosed()){
+			outToPupil.println(inputLine);
+		}
+	}*/
 }
 

@@ -1,3 +1,5 @@
+package Mrin_Krish;  
+import java.net.*;
 import javax.swing.*;
 import java.util.*;
 import java.io.*;
@@ -10,146 +12,162 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.math.*;
 
-public class UserInterface_2 {
+public class UICood {
     static Graphics g;    
     static Color drawColor = Color.black; // deafult starting color is BLACK
     static int prevX,prevY,x,y;    
     static int brushsize;
     static boolean isActive=false;
     static int mode;
+	static int portNo = 6788;
+    static String record = "!";
+	static int rptr = 1;
     
+	static String hostName = "zeno";
   public static void main(String args[]){
+	Socket echoSocket;
+    PrintWriter outToServer;
+	BufferedReader inFromServer;	
+	BufferedReader stdIn;
+
+	try{
+	echoSocket = new Socket(hostName, portNo);
+	outToServer = new PrintWriter(echoSocket.getOutputStream(), true);
+	inFromServer = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
+	stdIn = new BufferedReader( new InputStreamReader(System.in));
+	System.out.println("Connected Server");
+	
+ 	
+	//Mrin'z code
+	
     JFrame frame= new JFrame("DISTRIBUTED WHITEBOARD");
     // Canvas Panel
     JPanel panel= new JPanel();
     // Another JPanel for holding all the tools on the side
     JPanel sidepanel= new JPanel(); 
     
-    // Spoke to Dr.Null on 04/04/16 and she said Square is not needed as we have Rectangle, Circle is not needed as we have Oval, and use POLYGON for Traingle
-    
-    // Red Color 
+    //Red Color 
     JButton red_button=new JButton("");
     red_button.setForeground(Color.BLACK);
     red_button.setBackground(Color.RED);
-    red_button.setPreferredSize(new Dimension(120,25));
+    red_button.setPreferredSize(new Dimension(100,25));
     sidepanel.add(red_button);
-    // Blue Color
+    //Blue Color
     JButton blue_button=new JButton("");
     blue_button.setForeground(Color.BLUE);
     blue_button.setBackground(Color.BLUE);
-    blue_button.setPreferredSize(new Dimension(120,25));
+    blue_button.setPreferredSize(new Dimension(100,25));
     sidepanel.add(blue_button);
-    // Yellow Color
+    //Yellow Color
     JButton yellow_button=new JButton("");
     yellow_button.setForeground(Color.YELLOW);
     yellow_button.setBackground(Color.YELLOW);
-    yellow_button.setPreferredSize(new Dimension(120,25));
+    yellow_button.setPreferredSize(new Dimension(100,25));
     sidepanel.add(yellow_button);
-    // Green Color
+    //Green Color
     JButton green_button=new JButton("");
     green_button.setForeground(Color.GREEN);
     green_button.setBackground(Color.GREEN);
-    green_button.setPreferredSize(new Dimension(120,25));
+    green_button.setPreferredSize(new Dimension(100,25));
     sidepanel.add(green_button);
-    // Black Color
+    //Black Color
     JButton black_button=new JButton("");
     black_button.setForeground(Color.BLACK);
     black_button.setBackground(Color.BLACK);
-    black_button.setPreferredSize(new Dimension(120,25));
+    black_button.setPreferredSize(new Dimension(100,25));
     sidepanel.add(black_button);
-    // Pink Color
+    //Pink Color
     JButton pink_button=new JButton("");
     pink_button.setForeground(Color.PINK);
     pink_button.setBackground(Color.PINK);
-    pink_button.setPreferredSize(new Dimension(120,25));
+    pink_button.setPreferredSize(new Dimension(100,25));
     sidepanel.add(pink_button);
-    // White Color
+    //White Color
     JButton white_button=new JButton("");
     white_button.setForeground(Color.WHITE);
     white_button.setBackground(Color.WHITE);
-    white_button.setPreferredSize(new Dimension(120,25));
+    white_button.setPreferredSize(new Dimension(100,25));
     sidepanel.add(white_button);
-    // Cyan Color
-    JButton cyan_button=new JButton("");
-    cyan_button.setForeground(Color.CYAN);
-    cyan_button.setBackground(Color.CYAN);
-    cyan_button.setPreferredSize(new Dimension(120,25));
-    sidepanel.add(cyan_button);
-    // Choose Color
-    JButton choose_color=new JButton("Palette");
-    choose_color.setPreferredSize(new Dimension(120,25));
-    sidepanel.add(choose_color);
     
-    // Fill Tool
+    //Fill Tool
     Icon fill_image = new ImageIcon("fill.gif");
     JButton fill=new JButton(fill_image);
-    fill.setPreferredSize(new Dimension(120,25));
+    fill.setPreferredSize(new Dimension(100,25));
     sidepanel.add(fill);
     
     // Eraser Tool
     Icon eraser_image = new ImageIcon("eraser.gif");   
     JButton eraser_button=new JButton(eraser_image);    
-    eraser_button.setPreferredSize(new Dimension(120,25));
+    eraser_button.setPreferredSize(new Dimension(100,25));
     sidepanel.add(eraser_button);
     
     // Tiny Eraser
     Icon tiny_image = new ImageIcon("brush1.gif");
     JButton tiny=new JButton(tiny_image);
-    tiny.setPreferredSize(new Dimension(120,25));
+    tiny.setPreferredSize(new Dimension(100,25));
     sidepanel.add(tiny);
     
-    // Big Eraser
+    //Big Eraser
     Icon big_image = new ImageIcon("brush2.gif");
     JButton big=new JButton(big_image);
-    big.setPreferredSize(new Dimension(120,25));
+    big.setPreferredSize(new Dimension(100,25));
     sidepanel.add(big);
     
     // Free-hand TOOL
     Icon pencil_image= new ImageIcon("pencil.gif");
     JButton freehand=new JButton(pencil_image);
-    freehand.setPreferredSize(new Dimension(120,25));
+    freehand.setPreferredSize(new Dimension(100,25));
     sidepanel.add(freehand);
     
     // Text-Box TOOL
     Icon textbox_image = new ImageIcon("textbox.gif");
     JButton textbox= new JButton(textbox_image);
-    textbox.setPreferredSize(new Dimension(120,25));
+    textbox.setPreferredSize(new Dimension(100,25));
     sidepanel.add(textbox);
     
     // Clear Button
     Icon clear_image = new ImageIcon("clear.gif");
     JButton clear=new JButton(clear_image);
-    clear.setPreferredSize(new Dimension(120,25));
+    clear.setPreferredSize(new Dimension(100,25));
     sidepanel.add(clear);
-    
-    // Circle Button
-    JButton circle_button = new JButton("CIRCLE");
-    circle_button.setPreferredSize(new Dimension(120,25));
-    sidepanel.add(circle_button);    
-    
-    // Rectangle Button
-    JButton rectangle_button = new JButton("RECTANGLE");
-    rectangle_button.setPreferredSize(new Dimension(120,25));
-    sidepanel.add(rectangle_button);
     
     // Line Button
     JButton line_button = new JButton("LINE");
-    line_button.setPreferredSize(new Dimension(120,25));
-    sidepanel.add(line_button);    
-         
-    sidepanel.setPreferredSize(new Dimension(175,200));                      
-    frame.add(sidepanel,BorderLayout.WEST);    
+    line_button.setPreferredSize(new Dimension(100,25));
+    sidepanel.add(line_button);
     
+    // Circle Button
+    JButton circle_button = new JButton("CIRCLE");
+    circle_button.setPreferredSize(new Dimension(100,25));
+    sidepanel.add(circle_button);
     
-    JMenu file=new JMenu("File");    
-   
-    //JMenu interrupt = new JMenu("Interrupt");
+    // Square Button
+    JButton square_button = new JButton("SQUARE");
+    square_button.setPreferredSize(new Dimension(100,25));
+    sidepanel.add(square_button);
+    
         
+    sidepanel.setPreferredSize(new Dimension(150,200));                      
+    frame.add(sidepanel,BorderLayout.WEST);
+    
+    
+    
+    JMenu file=new JMenu("File");
+    //JMenu colors=new JMenu("Colors");
+    JMenu shapes=new JMenu("Shapes");
+    JMenu interrupt = new JMenu("Interrupt");
+    //JMenu eraser=new JMenu("Eraser");
+    //JMenu freehand=new JMenu("Free Hand");
+    
     JMenuBar menubar=new JMenuBar();
     menubar.add(file);
-    //menubar.add(interrupt);     
+    menubar.add(interrupt);
+    //menubar.add(colors);
+    menubar.add(shapes);
+    //menubar.add(eraser);
+    //menubar.add(freehand);
        
-    // Menu Items for Menu File
+    //Menu Items for Menu File
     JMenuItem quit=new JMenuItem("Quit");
     quit.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent ev) {
@@ -158,10 +176,10 @@ public class UserInterface_2 {
           JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
           if (response == JOptionPane.NO_OPTION) {
           } else if (response == JOptionPane.YES_OPTION) {
+	    UICood.writeToServer("#####",outToServer,inFromServer);
             System.exit(0);
-          } else if (response == JOptionPane.CLOSED_OPTION) {
-            JOptionPane.showMessageDialog(null,"JOptionPane closed");
-          }
+          } 
+//Connected Server
 
         }
     });
@@ -190,6 +208,7 @@ public class UserInterface_2 {
     });
 
     // Clear IMPLEMENTATION
+    // Works only after the WhiteBoard has something drawn/written on it
     clear.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent e){
         g=panel.getGraphics();
@@ -200,14 +219,14 @@ public class UserInterface_2 {
 
     // Tiny Eraser - SIZE 1 Implementation
     tiny.addActionListener(new ActionListener(){
-      public void actionPerformed(ActionEvent e){        
+      public void actionPerformed(ActionEvent e){
         brushsize=15;
       }
     });
     
     // Big Eraser - SIZE 2 Implementation
     big.addActionListener(new ActionListener(){
-      public void actionPerformed(ActionEvent e){        
+      public void actionPerformed(ActionEvent e){
         brushsize=50;
       }
     });
@@ -218,14 +237,6 @@ public class UserInterface_2 {
         drawColor = Color.blue;
       }
     });
-    
-    cyan_button.addActionListener(new ActionListener(){
-      public void actionPerformed(ActionEvent ev){
-        drawColor = Color.cyan;
-      }
-    });
-                           
-   
     green_button.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent ev){        
         drawColor = Color.green;
@@ -256,10 +267,8 @@ public class UserInterface_2 {
     red_button.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent ev){
         drawColor = Color.red;
-        
       }
     });
-    
     
     yellow_button.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent ev){
@@ -267,91 +276,158 @@ public class UserInterface_2 {
       }
     });
     
-    choose_color.addActionListener(new ActionListener(){
-      public void actionPerformed(ActionEvent e){
-        Color c = JColorChooser.showDialog(null, "Color Palette",Color.white);      
-        drawColor =c;
-      }
-    });      
+    //Menu Items for Menu Shapes
+    JMenuItem circle=new JMenuItem("Circle");
+    shapes.add(circle);
     
-    // LINE IMPLEMENTATION 
-    line_button.addMouseMotionListener(new MouseMotionAdapter(){
+    JMenuItem square=new JMenuItem("Square");
+    shapes.add(square);
+    
+    JMenuItem rectangle= new JMenuItem("Rectangle");
+    shapes.add(rectangle);
+    JMenuItem triangle=new JMenuItem("Triangle");
+    shapes.add(triangle);
+    JMenuItem line=new JMenuItem("Line");
+    shapes.add(line);
+
+	// Circle Implementation mode 1
+    
+    circle.addMouseMotionListener(new MouseMotionAdapter(){
       public void mouseDragged(MouseEvent e){
-        
-      }
+       }
     });
     
-    line_button.addMouseListener(new MouseAdapter(){
+    circle.addMouseListener(new MouseAdapter(){
       
-      public void mousePressed(MouseEvent ev){}
+      public void mousePressed(MouseEvent ev){  }
       
       public void mouseClicked(MouseEvent e){
        isActive=true;
        mode=1;
       }
          
-      public void mouseReleased(MouseEvent e){    
+      public void mouseReleased(MouseEvent e){
         isActive=true;
         mode=1;
       }
          
-      public void mouseEntered(MouseEvent e){}
-         
-      public void mouseExited(MouseEvent e){}
+      public void mouseEntered(MouseEvent e){    }
+      public void mouseExited(MouseEvent e){    }
          
     });
+	
+	// Square Implementation
     
-    // RECTANGLE Implementation    
-    rectangle_button.addMouseMotionListener(new MouseMotionAdapter(){
+    square.addMouseMotionListener(new MouseMotionAdapter(){
       public void mouseDragged(MouseEvent e){
        }
     });
     
-    rectangle_button.addMouseListener(new MouseAdapter(){
+    square.addMouseListener(new MouseAdapter(){
       
-      public void mousePressed(MouseEvent ev){}
+      public void mousePressed(MouseEvent ev){  }
       
       public void mouseClicked(MouseEvent e){
        isActive=true;
        mode=2;
       }
          
-      public void mouseReleased(MouseEvent e){      
+      public void mouseReleased(MouseEvent e){
         isActive=true;
         mode=2;
       }
          
-      public void mouseEntered(MouseEvent e){}
-         
-      public void mouseExited(MouseEvent e){}
+      public void mouseEntered(MouseEvent e){    }
+      public void mouseExited(MouseEvent e){    }
          
     });
+	
+	// RECTANGLE Implementation
     
-    // Circle Implementation    
-    circle_button.addMouseMotionListener(new MouseMotionAdapter(){
+    rectangle.addMouseMotionListener(new MouseMotionAdapter(){
       public void mouseDragged(MouseEvent e){
        }
     });
     
-    circle_button.addMouseListener(new MouseAdapter(){
+    rectangle.addMouseListener(new MouseAdapter(){
       
-      public void mousePressed(MouseEvent ev){}
+      public void mousePressed(MouseEvent ev){
+       }
       
+      public void mouseClicked(MouseEvent e){
+       isActive=true;
+       mode=3;
+      }
+         
+      public void mouseReleased(MouseEvent e){
+        isActive=true;
+        mode=3;
+      }
+         
+      public void mouseEntered(MouseEvent e){    }
+         
+      public void mouseExited(MouseEvent e){    }
+         
+    });
+   
+
+	// TRIANGLE Implementation
+    
+    triangle.addMouseMotionListener(new MouseMotionAdapter(){
+      public void mouseDragged(MouseEvent e){
+       }
+    });
+    
+    triangle.addMouseListener(new MouseAdapter(){
+      
+      public void mousePressed(MouseEvent ev){
+       }
+      
+      public void mouseClicked(MouseEvent e){
+       isActive=true;
+       mode=4;
+      }
+         
+      public void mouseReleased(MouseEvent e){
+        isActive=true;
+        mode=4;
+      }
+         
+      public void mouseEntered(MouseEvent e){    }
+         
+      public void mouseExited(MouseEvent e){    }
+         
+    });
+
+    // LINE IMPLEMENTATION 
+    line.addMouseMotionListener(new MouseMotionAdapter(){
+      public void mouseDragged(MouseEvent e){
+        
+      }
+    });
+    
+    line.addMouseListener(new MouseAdapter(){
+      public void mousePressed(MouseEvent ev){       }
       public void mouseClicked(MouseEvent e){
        isActive=true;
        mode=5;
       }
          
-      public void mouseReleased(MouseEvent e){      
+      public void mouseReleased(MouseEvent e){
         isActive=true;
         mode=5;
       }
          
-      public void mouseEntered(MouseEvent e){}
+      public void mouseEntered(MouseEvent e){
+            
+       }
          
-      public void mouseExited(MouseEvent e){}
+      public void mouseExited(MouseEvent e){
+          
+       }
          
     });
+      
        
     // ERASER Implementation
     eraser_button.addMouseListener(new MouseAdapter(){
@@ -360,16 +436,15 @@ public class UserInterface_2 {
       
       public void mouseClicked(MouseEvent e){
         isActive=true;
-        mode=4;
+        mode=10;
         }
          
       public void mouseReleased(MouseEvent e){
         isActive=true;
-        mode=4;
+        mode=10;
         }
          
       public void mouseEntered(MouseEvent e){}
-         
       public void mouseExited(MouseEvent e){}
          
     });
@@ -378,14 +453,15 @@ public class UserInterface_2 {
       public void mouseDragged(MouseEvent e){}
     });
     
-    // PANEL Implementation    
+    // PANEL Implementation
+    
     panel.addMouseMotionListener(new MouseMotionAdapter(){
       public void mouseDragged(MouseEvent e){
         if(isActive){
           x = e.getX();  
           y = e.getY();   
           
-          if(mode==3) // Mode=3 : FREE-HAND tool
+          if(mode==6) //Line implemented
           {
             g=panel.getGraphics();
             g.setColor(drawColor);
@@ -394,7 +470,7 @@ public class UserInterface_2 {
             prevX=x;
             prevY=y;
           }         
-          else if(mode==4) // Mode=4 : ERASER tool
+          else if(mode==10)	//Eraser was selected
           {
             Graphics2D g2=(Graphics2D)g;
             g=panel.getGraphics();
@@ -417,37 +493,69 @@ public class UserInterface_2 {
        if(isActive)
        {
         prevX= ev.getX();
-        prevY= ev.getY();
+        prevY=ev.getY();
        }
       }
       
-      public void mouseClicked(MouseEvent e){}
+      public void mouseClicked(MouseEvent e){     }
          
       public void mouseReleased(MouseEvent e){
        if(isActive)
        {
         g=panel.getGraphics();
         g.setColor(drawColor);
-        if(mode==1)   // Mode=1 : Shape - LINE
+        int mx,my,dx,dy,r,b,gr;
+		r = drawColor.getRed(); gr = drawColor.getGreen(); b = drawColor.getBlue();
+		
+		if(mode==1) //circle implemented
         {
-          g.drawLine(prevX,prevY,x,y);
+		  mx = Math.min(x,prevX); my = Math.min(y,prevY);
+		  dx = Math.abs(x-prevX); dy = Math.abs(y-prevY);
+          g.drawOval(mx,my,dx,dy);
+		  UICood.writeToServer(r+","+gr+","+b+",O,"+mx+","+my+","+dx+","+dy+",",outToServer,inFromServer);
+		  
         }
-        else if(mode==2) // Mode=2 : Shape - RECTANGLE
+        
+		else if(mode==2) //Square implemented
         {
-          g.drawRect(prevX,prevY,x-prevX,y-prevY);
+		  mx = Math.min(x,prevX); my = Math.min(y,prevY);
+		  dx = Math.max(Math.abs(x-prevX), Math.abs(y-prevY));
+		  g.drawRect(mx,my,dx,dx);
+		  UICood.writeToServer(r+","+gr+","+b+",S,"+mx+","+my+","+dx+","+dx+",",outToServer,inFromServer);
         }
-        else if(mode==5) // Mode=5 : Shape - CIRCLE
+
+        else if(mode==3) //rectangle implemented
         {
-          g.drawOval(prevX,prevY,x-prevX,y-prevY);
+		  mx = Math.min(x,prevX); my = Math.min(y,prevY);
+		  dx = Math.abs(x-prevX); dy = Math.abs(y-prevY);
+		  g.drawRect(mx,my,dx,dy);
+		  UICood.writeToServer(r+","+gr+","+b+",R,"+mx+","+my+","+dx+","+dy+",",outToServer,inFromServer);
+        }
+		
+		else if(mode == 4) //triangle implemented
+		{
+		g.drawLine(prevX,y,x,y);
+		  UICood.writeToServer(r+","+gr+","+b+",L,"+prevX+","+y+","+x+","+y+",",outToServer,inFromServer);
+		g.drawLine(prevX,y,(int)((x+prevX)/2),prevY);
+		  UICood.writeToServer(r+","+gr+","+b+",L,"+prevX+","+y+","+(int)((x+prevX)/2)+","+prevY+",",outToServer,inFromServer);
+		g.drawLine((int)((x+prevX)/2),prevY,x,y);
+		  UICood.writeToServer(r+","+gr+","+b+",L,"+(int)((x+prevX)/2)+","+prevY+","+x+","+y+",",outToServer,inFromServer);			
+		
+		}
+		
+        else if(mode==5) //line implemented
+        {
+		  g.drawLine(prevX,prevY,x,y);
+		  UICood.writeToServer(r+","+gr+","+b+",L,"+prevX+","+prevY+","+x+","+y+",",outToServer,inFromServer);
         }
         else
           System.out.println("Wrong mode!");
        }       
       }
          
-      public void mouseEntered(MouseEvent e){}
+      public void mouseEntered(MouseEvent e){  }
          
-      public void mouseExited(MouseEvent e){}
+      public void mouseExited(MouseEvent e){ }
          
     });
     
@@ -457,7 +565,6 @@ public class UserInterface_2 {
     freehand.addMouseListener(new MouseAdapter(){
       
       public void mousePressed(MouseEvent ev){}
-      
       public void mouseClicked(MouseEvent e){
         isActive=true;
         mode=3;
@@ -469,7 +576,6 @@ public class UserInterface_2 {
         }
          
       public void mouseEntered(MouseEvent e){}
-         
       public void mouseExited(MouseEvent e){}
          
     });
@@ -478,7 +584,7 @@ public class UserInterface_2 {
       public void mouseDragged(MouseEvent e){}
     });
     
-    // FILL Implementation  
+    //FILL Implementation  
     fill.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent e){
         g=panel.getGraphics();
@@ -496,10 +602,50 @@ public class UserInterface_2 {
     panel.setBackground(Color.white);
     // Add the Panel to the Frame window
     frame.add(panel);
-    frame.setSize(1000,700); // Set the size of the Frame to 1000,700
+    frame.setSize(1000,650); // Set the size of the Frame to 1000,650
     frame.setVisible(true); 
     frame.setTitle("Distributed Whiteboard"); // Displays the title of the Frame as 'Distributed Whiteboard'
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Default close operation of the Frame window
+
+	} catch (UnknownHostException e) {
+        System.err.println("Don't know about host " + hostName);
+        System.exit(1);
+    } catch (IOException e) {
+        System.err.println("Couldn't get I/O for the connection to " +
+            hostName);
+        System.exit(1);
+    } 
   }
-  
+	  
+	public static void writeToServer(String set, PrintWriter outToServer,BufferedReader inFromServer) {
+		try{
+		record = record.concat(set);
+		record = record.concat("!");	//signifies end of one instruction
+		outToServer.println(set+"!");
+		String ServerInput = inFromServer.readLine();
+		System.out.println("server sent: " + ServerInput);
+	
+		} catch (UnknownHostException e) {
+        System.err.println("Don't know about host " + hostName);
+        System.exit(1);
+    } catch (IOException e) {
+        System.err.println("Couldn't get I/O for the connection to " +
+            hostName);
+        System.exit(1);
+    }
+	}
+
+	public static String getRecord(){
+	/*if(rptr == record.length()){
+		return null;}
+	int s = record.indexOf('!',rptr-1);
+	int e = record.indexOf('!',s+1);
+	System.out.println(s+" "+e+" "+rptr); 
+	String sub = record.substring(s+1,e);
+	rptr = e;
+	return sub;*/
+	return record;
+
+
+}
  }

@@ -34,8 +34,24 @@ public class UIPup {
 
 	System.out.println("Waiting for co-ordinator");
     String ServerInput="";
-    while ((ServerInput = inFromServer.readLine()) != null ) {
-        System.out.println("Co-od: " + ServerInput);
+	String Splits[] ;    
+	int r,g,b,v1,v2,v3,v4;
+	char type;
+	while ((ServerInput = inFromServer.readLine()) != null ) {
+        //System.out.println("Co-od: " + ServerInput);
+		if(ServerInput.charAt(0) == '#' && ServerInput.charAt(4)=='#')
+			System.exit(0);
+		Splits = ServerInput.split(",");
+		r = Integer.parseInt(Splits[0]);
+		g = Integer.parseInt(Splits[1]);
+		b = Integer.parseInt(Splits[2]);
+		type = Splits[3].charAt(0);
+		v1 = Integer.parseInt(Splits[4]);
+		v2 = Integer.parseInt(Splits[5]);
+		v3 = Integer.parseInt(Splits[6]);
+		v4 = Integer.parseInt(Splits[7]);
+		System.out.println("Color Co-od "+r+" "+g+" "+b+" Type "+type+" Vars "+v1+" ,"+v2+" ,"+v3+" ,"+v4+" ");
+
     }
     System.out.println(" The co-ordinator entered \".\", hence session ended ");
 

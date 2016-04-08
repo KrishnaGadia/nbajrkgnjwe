@@ -176,10 +176,10 @@ public class UICood {
           JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
           if (response == JOptionPane.NO_OPTION) {
           } else if (response == JOptionPane.YES_OPTION) {
-			UICood.setRecord("#####",outToServer,inFromServer);
+			UICood.writeToServer("#####",outToServer,inFromServer);
             System.exit(0);
           } else if (response == JOptionPane.CLOSED_OPTION) {
-			UICood.setRecord("#####",outToServer,inFromServer);
+			UICood.writeToServer("#####",outToServer,inFromServer);
             JOptionPane.showMessageDialog(null,"JOptionPane closed");
           }
 
@@ -291,16 +291,18 @@ public class UICood {
     shapes.add(triangle);
     JMenuItem line=new JMenuItem("Line");
     shapes.add(line);
+
+	// Circle Implementation mode 1
     
-    // LINE IMPLEMENTATION 
-    line.addMouseMotionListener(new MouseMotionAdapter(){
+    circle.addMouseMotionListener(new MouseMotionAdapter(){
       public void mouseDragged(MouseEvent e){
-        
-      }
+       }
     });
     
-    line.addMouseListener(new MouseAdapter(){
-      public void mousePressed(MouseEvent ev){       }
+    circle.addMouseListener(new MouseAdapter(){
+      
+      public void mousePressed(MouseEvent ev){  }
+      
       public void mouseClicked(MouseEvent e){
        isActive=true;
        mode=1;
@@ -311,17 +313,38 @@ public class UICood {
         mode=1;
       }
          
-      public void mouseEntered(MouseEvent e){
-            
-       }
-         
-      public void mouseExited(MouseEvent e){
-          
-       }
+      public void mouseEntered(MouseEvent e){    }
+      public void mouseExited(MouseEvent e){    }
          
     });
+	
+	// Square Implementation
     
-    // RECTANGLE Implementation
+    square.addMouseMotionListener(new MouseMotionAdapter(){
+      public void mouseDragged(MouseEvent e){
+       }
+    });
+    
+    square.addMouseListener(new MouseAdapter(){
+      
+      public void mousePressed(MouseEvent ev){  }
+      
+      public void mouseClicked(MouseEvent e){
+       isActive=true;
+       mode=2;
+      }
+         
+      public void mouseReleased(MouseEvent e){
+        isActive=true;
+        mode=2;
+      }
+         
+      public void mouseEntered(MouseEvent e){    }
+      public void mouseExited(MouseEvent e){    }
+         
+    });
+	
+	// RECTANGLE Implementation
     
     rectangle.addMouseMotionListener(new MouseMotionAdapter(){
       public void mouseDragged(MouseEvent e){
@@ -335,12 +358,12 @@ public class UICood {
       
       public void mouseClicked(MouseEvent e){
        isActive=true;
-       mode=2;
+       mode=3;
       }
          
       public void mouseReleased(MouseEvent e){
         isActive=true;
-        mode=2;
+        mode=3;
       }
          
       public void mouseEntered(MouseEvent e){    }
@@ -348,18 +371,45 @@ public class UICood {
       public void mouseExited(MouseEvent e){    }
          
     });
+   
+
+	// TRIANGLE Implementation
     
-    // Circle Implementation
-    
-    circle.addMouseMotionListener(new MouseMotionAdapter(){
+    triangle.addMouseMotionListener(new MouseMotionAdapter(){
       public void mouseDragged(MouseEvent e){
        }
     });
     
-    circle.addMouseListener(new MouseAdapter(){
+    triangle.addMouseListener(new MouseAdapter(){
       
-      public void mousePressed(MouseEvent ev){  }
+      public void mousePressed(MouseEvent ev){
+       }
       
+      public void mouseClicked(MouseEvent e){
+       isActive=true;
+       mode=4;
+      }
+         
+      public void mouseReleased(MouseEvent e){
+        isActive=true;
+        mode=4;
+      }
+         
+      public void mouseEntered(MouseEvent e){    }
+         
+      public void mouseExited(MouseEvent e){    }
+         
+    });
+
+    // LINE IMPLEMENTATION 
+    line.addMouseMotionListener(new MouseMotionAdapter(){
+      public void mouseDragged(MouseEvent e){
+        
+      }
+    });
+    
+    line.addMouseListener(new MouseAdapter(){
+      public void mousePressed(MouseEvent ev){       }
       public void mouseClicked(MouseEvent e){
        isActive=true;
        mode=5;
@@ -370,10 +420,16 @@ public class UICood {
         mode=5;
       }
          
-      public void mouseEntered(MouseEvent e){    }
-      public void mouseExited(MouseEvent e){    }
+      public void mouseEntered(MouseEvent e){
+            
+       }
+         
+      public void mouseExited(MouseEvent e){
+          
+       }
          
     });
+      
        
     // ERASER Implementation
     eraser_button.addMouseListener(new MouseAdapter(){
@@ -382,12 +438,12 @@ public class UICood {
       
       public void mouseClicked(MouseEvent e){
         isActive=true;
-        mode=4;
+        mode=10;
         }
          
       public void mouseReleased(MouseEvent e){
         isActive=true;
-        mode=4;
+        mode=10;
         }
          
       public void mouseEntered(MouseEvent e){}
@@ -407,7 +463,7 @@ public class UICood {
           x = e.getX();  
           y = e.getY();   
           
-          if(mode==3)
+          if(mode==6) //Line implemented
           {
             g=panel.getGraphics();
             g.setColor(drawColor);
@@ -416,7 +472,7 @@ public class UICood {
             prevX=x;
             prevY=y;
           }         
-          else if(mode==4)
+          else if(mode==10)	//Eraser was selected
           {
             Graphics2D g2=(Graphics2D)g;
             g=panel.getGraphics();
@@ -450,23 +506,49 @@ public class UICood {
        {
         g=panel.getGraphics();
         g.setColor(drawColor);
-        if(mode==1)
+        int mx,my,dx,dy,r,b,gr;
+		r = drawColor.getRed(); gr = drawColor.getGreen(); b = drawColor.getBlue();
+		
+		if(mode==1) //circle implemented
         {
-          g.drawLine(prevX,prevY,x,y);
-        }
-        else if(mode==2)
-        {
-          g.drawRect(Math.min(x,prevX),Math.min(y,prevY),Math.abs(x-prevX),Math.abs(y-prevY));
-		  UICood.setRecord("dO,"+drawColor+","+prevX+","+prevY+","+(x-prevX)+","+(y-prevY)+",",outToServer,inFromServer);
+		  mx = Math.min(x,prevX); my = Math.min(y,prevY);
+		  dx = Math.abs(x-prevX); dy = Math.abs(y-prevY);
+          g.drawOval(mx,my,dx,dy);
+		  UICood.writeToServer(r+","+gr+","+b+",O,"+mx+","+my+","+dx+","+dy+",",outToServer,inFromServer);
 		  
-		  
         }
-        else if(mode==5)
+        
+		else if(mode==2) //Square implemented
         {
-          g.drawOval(Math.min(x,prevX),Math.min(y,prevY),Math.abs(x-prevX),Math.abs(y-prevY));
-		  UICood.setRecord("dO,"+drawColor.getRed()+","+drawColor.getGreen()+","+drawColor.getBlue()+","+prevX+","+prevY+","+(x-prevX)+","+(y-prevY)+",",outToServer,inFromServer);
-		  //System.out.println(UICood.record);
-		  //System.out.println(UserInterface_2.getRecord());
+		  mx = Math.min(x,prevX); my = Math.min(y,prevY);
+		  dx = Math.max(Math.abs(x-prevX), Math.abs(y-prevY));
+		  g.drawRect(mx,my,dx,dx);
+		  UICood.writeToServer(r+","+gr+","+b+",S,"+mx+","+my+","+dx+","+dx+",",outToServer,inFromServer);
+        }
+
+        else if(mode==3) //rectangle implemented
+        {
+		  mx = Math.min(x,prevX); my = Math.min(y,prevY);
+		  dx = Math.abs(x-prevX); dy = Math.abs(y-prevY);
+		  g.drawRect(mx,my,dx,dy);
+		  UICood.writeToServer(r+","+gr+","+b+",R,"+mx+","+my+","+dx+","+dy+",",outToServer,inFromServer);
+        }
+		
+		else if(mode == 4) //triangle implemented
+		{
+		g.drawLine(prevX,y,x,y);
+		  UICood.writeToServer(r+","+gr+","+b+",L,"+prevX+","+y+","+x+","+y+",",outToServer,inFromServer);
+		g.drawLine(prevX,y,(int)((x+prevX)/2),prevY);
+		  UICood.writeToServer(r+","+gr+","+b+",L,"+prevX+","+y+","+(int)((x+prevX)/2)+","+prevY+",",outToServer,inFromServer);
+		g.drawLine((int)((x+prevX)/2),prevY,x,y);
+		  UICood.writeToServer(r+","+gr+","+b+",L,"+(int)((x+prevX)/2)+","+prevY+","+x+","+y+",",outToServer,inFromServer);			
+		
+		}
+		
+        else if(mode==5) //line implemented
+        {
+		  g.drawLine(prevX,prevY,x,y);
+		  UICood.writeToServer(r+","+gr+","+b+",L,"+prevX+","+prevY+","+x+","+y+",",outToServer,inFromServer);
         }
         else
           System.out.println("Wrong mode!");
@@ -537,7 +619,7 @@ public class UICood {
     } 
   }
 	  
-	public static void setRecord(String set, PrintWriter outToServer,BufferedReader inFromServer) {
+	public static void writeToServer(String set, PrintWriter outToServer,BufferedReader inFromServer) {
 		try{
 		record = record.concat(set);
 		record = record.concat("!");	//signifies end of one instruction

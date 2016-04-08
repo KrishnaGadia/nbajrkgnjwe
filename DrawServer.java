@@ -36,12 +36,17 @@ class DrawServer
 
 			String inputLine;
 		    while ((inputLine = inFromClient.readLine()) != null ) {
+				if(inputLine.charAt(0)=='#' && inputLine.charAt(3)=='#' ){
+					outToPupil.println(inputLine);
+					break;
+					}
 				record = record.concat(inputLine+"\n");
 				System.out.println(inputLine+" got");
 				if(inputLine!=null){
 					outToClient.println(inputLine);
 					outToPupil.println(inputLine);
 					}			
+				
 				}
 			
 			loc = record.lastIndexOf("#");
@@ -51,6 +56,7 @@ class DrawServer
 			record.concat("#");
 		
 			cs.close();
+			ps.close();
 			ss.close();
 		
 				}

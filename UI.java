@@ -663,14 +663,6 @@ public class UI {
 	}
 
 	public static String getRecord(){
-	/*if(rptr == record.length()){
-		return null;}
-	int s = record.indexOf('!',rptr-1);
-	int e = record.indexOf('!',s+1);
-	System.out.println(s+" "+e+" "+rptr); 
-	String sub = record.substring(s+1,e);
-	rptr = e;
-	return sub;*/
 	return record;
 
 

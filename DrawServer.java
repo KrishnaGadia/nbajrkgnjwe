@@ -8,8 +8,6 @@ class DrawServer
     
 	static int portNo = 6788;
 	static Socket cs,ps;
-	static PrintWriter outToPupil;
-	static boolean isPupil = false;
 	public static void main(String args[]) 
 	{	
 		
@@ -30,7 +28,7 @@ class DrawServer
 			System.out.println("Came here");
 			PrintWriter outToClient 
 					= new PrintWriter(cs.getOutputStream(),true);
-			outToPupil = new PrintWriter(ps.getOutputStream(),true);			
+			PrintWriter outToPupil = new PrintWriter(ps.getOutputStream(),true);			
 			BufferedReader inFromClient 
 					= new BufferedReader(new InputStreamReader(cs.getInputStream()));
 
@@ -65,19 +63,6 @@ class DrawServer
 		catch( Exception e){
 			System.out.println(e.toString()+" Is the EXCEPTION");
 		}
-		
 	}
-	
-	/*public static void connectPup(ServerSocket ss)throws IOException{
-		Socket ps = ss.accept();
-		System.out.println("Pupil accepted");
-		outToPupil = new PrintWriter(ps.getOutputStream(),true);
-		isPupil = true;	
-	}
-	public static void printPup(String inputLine){
-		if(!ps.isClosed()){
-			outToPupil.println(inputLine);
-		}
-	}*/
 }
 
